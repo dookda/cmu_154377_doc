@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>การสร้างแผนที่</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+
+<body>
+    <div id="map"></div> <!-- สร้างตัวแผนที่ในโค้ด HTML -->
+
+    <script>
+        // สร้างแผนที่ในตำแหน่งที่กำหนด
+        var map = L.map('map').setView([13.7563, 100.5018], 12);
+
+        // เพิ่มแผนที่พื้นฐาน
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'แผนที่โดย <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+
+        // เพิ่มหมุด
+        L.marker([13.7563, 100.5018]).addTo(map)
+            .bindPopup('สวัสดี กรุงเทพมหานคร!')
+            .openPopup();
+
+        var map = L.map('map').setView([latitude, longitude], zoomLevel);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'แผนที่โดย <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+
+        var marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup('สวัสดี นี่คือตำแหน่งที่ต้องการแสดง');
+
+        map.on('click', function (event) {
+            console.log('คลิกที่ตำแหน่ง', event.latlng);
+        });
+
+        // ตัวอย่างโค้ดสร้างแผนที่
+        var map = L.map('map').setView([13.7563, 100.5018], 12);
+
+        // ตัวอย่างโค้ดเพิ่มแผนที่พื้นฐาน (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'แผนที่โดย <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+
+        // ตัวอย่างโค้ดเพิ่มแผนที่ WMS จาก GeoServer
+        L.tileLayer.wms('https://your-geoserver-url.com/geoserver/wms', {
+            layers: 'your-layer-name',
+            format: 'image/png',
+            transparent: true
+        }).addTo(map);
+
+        // ตัวอย่างโค้ดนำเข้าและแสดงข้อมูลจาก GeoJSON ไฟล์
+        fetch('data.geojson')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                L.geoJSON(data).addTo(map);
+            })
+            .catch(function (error) {
+                console.log('เกิดข้อผิดพลาดในการโหลดข้อมูล:', error);
+            });
+
+        // ตัวอย่างโค้ดเพิ่มป้ายกำกับในแต่ละตำแหน่งบนแผนที่
+        var marker = L.marker([13.7563, 100.5018]).addTo(map);
+        marker.bindPopup('สวัสดี กรุงเทพมหานคร!').openPopup();
+
+
+        // ตัวอย่างโค้ดสร้างหมุด (marker)
+        var marker = L.marker([13.7563, 100.5018]).addTo(map);
+
+        // ตัวอย่างโค้ดสร้างเส้นทาง (polyline)
+        var latlngs = [
+            [13.7563, 100.5018],
+            [13.758, 100.502],
+            [13.759, 100.504],
+            [13.758, 100.506],
+            [13.7563, 100.507]
+        ];
+        var polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
+
+        // ตัวอย่างโค้ดสร้าง polygon
+        var polygon = L.polygon([
+            [13.754, 100.498],
+            [13.756, 100.498],
+            [13.756, 100.502],
+            [13.754, 100.502]
+        ], { color: 'blue' }).addTo(map);
+
+
+        var marker = L.marker([13.7563, 100.5018]).addTo(map);
+        marker.bindPopup('รายละเอียดเพิ่มเติม').openPopup();
+
+        // ตัวอย่างโค้ดสร้างชั้นข้อมูลแบบกำหนดเอง
+        var customLayer = L.layerGroup().addTo(map);
+
+        // ตัวอย่างโค้ดเพิ่มรายละเอียดเพิ่มเติมในรูปแบบที่กำหนดเอง
+        var customIcon = L.icon({
+            iconUrl: 'custom-icon.png',
+            iconSize: [32, 32],
+            popupAnchor: [0, -16]
+        });
+
+        var customMarker = L.marker([13.7563, 100.5018], { icon: customIcon }).addTo(customLayer);
+        customMarker.bindPopup('<img src="custom-image.jpg" width="200">').openPopup();
+
+        // ตัวอย่างโค้ดสร้างตัวแสดงสถานะ
+        var legendControl = L.control({ position: 'bottomright' });
+
+        legendControl.onAdd = function (map) {
+            var legendDiv = L.DomUtil.create('div', 'legend');
+            // ตัวอย่างโค้ดสร้างส่วนของตัวแสดงสถานะ
+            legendDiv.innerHTML = `
+    <h4>สัญลักษณ์แผนที่</h4>
+    <div class="legend-item">
+      <span class="marker-icon"></span>
+      <span>สถานที่ท่องเที่ยว</span>
+    </div>
+    <div class="legend-item">
+      <span class="marker-icon"></span>
+      <span>โรงแรม</span>
+    </div>
+    ...
+  `;
+            return legendDiv;
+        };
+
+        legendControl.addTo(map);
+
+
+    </script>
+
+</body>
+
+</html>
