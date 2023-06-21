@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ตัวอย่างการใช้ JavaScript ใน HTML</title>
+    <script>
+        // JavaScript code
+        function greet() {
+            var name = document.getElementById("name").value;
+            var greeting = "สวัสดี, " + name + "!";
+            document.getElementById("result").textContent = greeting;
+        }
+    </script>
+</head>
+
+<body>
+    <h1>ตัวอย่างการใช้ JavaScript ใน HTML</h1>
+    <label for="name">ชื่อ:</label>
+    <input type="text" id="name">
+    <button onclick="greet()">ทักทาย</button>
+    <p id="result"></p>
+</body>
+
+</html>
